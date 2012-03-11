@@ -10,7 +10,7 @@ import org.slim3.datastore.Model;
 import com.google.appengine.api.datastore.Key;
 
 /**
- * {@link ProxyDatastoreServiceTest}から使用するModel
+ * test model for {@link ProxyDatastoreServiceTest}
  * @author sue445
  *
  */

@@ -71,6 +71,7 @@
       <version>${appengine.version}</version>
       <scope>provided</scope>
     </dependency>
+    <!--
     <dependency>
       <groupId>org.slim3</groupId>
       <artifactId>slim3-gen</artifactId>
@@ -83,6 +84,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+    -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
@@ -141,6 +143,7 @@
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>1.4</version>
         </plugin>
+        <!--
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>apt-maven-plugin</artifactId>
@@ -153,6 +156,7 @@
             </dependency>
           </dependencies>
         </plugin>
+        -->
       </plugins>
     </pluginManagement>
     <plugins>
@@ -214,6 +218,7 @@
               <overWriteIfNewer>true</overWriteIfNewer>
             </configuration>
           </execution>
+          <!--
           <execution>
             <id>copy-dependencies-for-apt</id>
             <phase>generate-sources</phase>
@@ -228,6 +233,7 @@
               <overWriteIfNewer>true</overWriteIfNewer>
             </configuration>
           </execution>
+          -->
         </executions>
       </plugin>
       <plugin>
@@ -266,7 +272,9 @@
         <artifactId>maven-eclipse-plugin</artifactId>
         <configuration>
           <excludes>
+          <!--
             <exclude>org.slim3:slim3-gen</exclude>
+            -->
             <exclude>com.google.appengine:appengine-api-1.0-sdk</exclude>
             <exclude>com.google.appengine:appengine-api-labs</exclude>
             <exclude>com.google.appengine:appengine-api-stubs</exclude>
@@ -286,6 +294,7 @@
             <classpathContainer>com.google.appengine.eclipse.core.GAE_CONTAINER</classpathContainer>
           </classpathContainers>
           <additionalConfig>
+<!--
             <file>
               <name>.factorypath</name>
               <content>
@@ -296,6 +305,7 @@
                ]]>
               </content>
             </file>
+-->
             <file>
               <name>.settings/org.eclipse.jdt.apt.core.prefs</name>
               <content>
