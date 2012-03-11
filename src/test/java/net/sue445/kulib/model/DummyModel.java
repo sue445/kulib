@@ -105,7 +105,7 @@ public class DummyModel implements Serializable, Slim3Model {
 	}
 
 	/**
-	 * @param data セットする data
+	 * @param data
 	 */
 	public void setData(String data) {
 		this.data = data;
