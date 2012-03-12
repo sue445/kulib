@@ -2,7 +2,7 @@ package net.sue445.kulib.model;
 
 import java.io.Serializable;
 
-import net.sue445.kulib.service.ProxyDatastoreServiceTest;
+import net.sue445.kulib.dao.MemcacheProxyDaoBaseTest;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
@@ -10,7 +10,7 @@ import org.slim3.datastore.Model;
 import com.google.appengine.api.datastore.Key;
 
 /**
- * test model for {@link ProxyDatastoreServiceTest}
+ * test model for {@link MemcacheProxyDaoBaseTest}
  * @author sue445
  *
  */
