@@ -1,8 +1,11 @@
-.DS_Store
+# Extracted from https://github.com/ulrich/macaron-factory/blob/master/.gitignore
+# Ignore all dotfiles...
+.*
+# except for .gitignore
+!.gitignore
+
 *.class
 *.jar
-.apt_generated/
 build/
 target/
-.settings/
 www-test/
