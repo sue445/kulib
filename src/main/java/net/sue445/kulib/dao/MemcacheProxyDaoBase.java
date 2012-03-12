@@ -100,7 +100,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 	public M get(Key key){
 		M memcacheModel = getFromMemcache(key);
 		if(memcacheModel != null){
-			logger.log(Level.SEVERE, "get from Memcache: key=" + key);
+			logger.log(Level.FINEST, "get from Memcache: key=" + key);
 			return memcacheModel;
 		}
 
@@ -111,7 +111,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 
 		putToMemcache(datastoreModel);
 
-		logger.log(Level.SEVERE, "get from Datastore: key=" + key);
+		logger.log(Level.FINEST, "get from Datastore: key=" + key);
 		return datastoreModel;
 	}
 
