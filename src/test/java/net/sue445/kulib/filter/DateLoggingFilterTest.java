@@ -3,7 +3,12 @@ package net.sue445.kulib.filter;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.TimeZone;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 import org.junit.Test;
 import org.slim3.tester.ControllerTestCase;
@@ -60,10 +65,24 @@ public class DateLoggingFilterTest extends ControllerTestCase{
 
 	@Test
 	public void doFilter() throws Exception{
-		MockFilterChain filterChain = new MockFilterChain();
+		DummyChain filterChain = new DummyChain();
 		setTimestampFormat("yyyy-MM-dd");
 		setTimeZone("JST");
 		filter.init(filterConfig);
 		filter.doFilter(tester.request, tester.response, filterChain);
+
+		assertThat(filterChain.isRun, is(true));
+	}
+
+	private static class DummyChain extends MockFilterChain{
+		public boolean isRun = false;
+
+		@Override
+		public void doFilter(ServletRequest request, ServletResponse response)
+				throws IOException, ServletException {
+			super.doFilter(request, response);
+			isRun = true;
+		}
+
 	}
 }
