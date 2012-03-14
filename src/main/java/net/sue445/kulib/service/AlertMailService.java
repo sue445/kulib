@@ -30,7 +30,7 @@ public class AlertMailService {
 
 
 	/**
-	 * mail.propertiesで初期化する
+	 * initialize as mail.properties
 	 */
 	public AlertMailService(){
 		this.bundleName = DEFAULT_BUNDLE_NAME;
@@ -38,18 +38,18 @@ public class AlertMailService {
 
 	/**
 	 *
-	 * @param bundleName	プロパティファイルから拡張子を除いたもの
+	 * @param bundleName
 	 */
 	public AlertMailService(String bundleName){
 		this.bundleName = bundleName;
 	}
 
 	/**
-	 * エラーメールを送る
+	 * send exception mail
 	 * @param t
 	 * @param request
 	 * @throws IOException
-	 * @return true:メールを送信した / false:除外リストに登録されていたので送信していない
+	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
 	 */
 	public boolean sendMail(Throwable t, HttpServletRequest request){
 		try {
@@ -97,7 +97,7 @@ public class AlertMailService {
 	}
 
 	/**
-	 * プロパティファイルからkeyに対応したvalueを取得する
+	 * get value in prop
 	 * @param key
 	 * @return
 	 */
@@ -112,7 +112,7 @@ public class AlertMailService {
 	}
 
 	/**
-	 * keyがあるかどうか
+	 * exists key
 	 * @param key
 	 * @return
 	 */
@@ -123,7 +123,7 @@ public class AlertMailService {
 	}
 
 	/**
-	 * 無視するエラーかどうか
+	 *
 	 * @param t
 	 * @return
 	 */
