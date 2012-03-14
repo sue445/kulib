@@ -44,6 +44,8 @@ This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](ht
     </project>
 
 # History
+* 0.0.2
+ * add MemcacheUtil
 * 0.0.1
  * first release
 
