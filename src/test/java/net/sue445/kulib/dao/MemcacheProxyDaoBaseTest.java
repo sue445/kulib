@@ -3,6 +3,7 @@ package net.sue445.kulib.dao;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,10 +25,9 @@ public class MemcacheProxyDaoBaseTest{
 	private static final String NAME1 = "name1";
 	private static final String NAME2 = "name2";
 
-	private static final String CURRENT_VERSION_ID = "1.0";
-
-	private static MemcacheProxyDaoBase<DummyModel> dao = new MemcacheProxyDaoBase<DummyModel>(){
-	};
+	private static class DummyDao extends MemcacheProxyDaoBase<DummyModel>{
+	}
+	private static MemcacheProxyDaoBase<DummyModel> dao = new DummyDao();
 
 	public static class WhenNotExistsData extends AppEngineTestCase{
 		@Test
@@ -38,7 +38,7 @@ public class MemcacheProxyDaoBaseTest{
 		@Test
 		public void createMemcacheKey(){
 			Key key = Datastore.createKey(DummyModel.class, 1);
-			assertThat(dao.createMemcacheKey(key), is(CURRENT_VERSION_ID + "DummyModel(1)"));
+			assertThat(dao.createMemcacheKey(key), is("1.0_DummyDao_DummyModel(1)"));
 		}
 
 		@Test
@@ -146,8 +146,13 @@ public class MemcacheProxyDaoBaseTest{
 			List<DummyModel> actual = dao.getAll(Arrays.asList(keys));
 
 			assertThat(actual.size(), is(2));
-			assertThat(actual.get(0).getKey(), is(createDatastoreKey(NAME1)));
-			assertThat(actual.get(1).getKey(), is(createDatastoreKey(NAME2)));
+
+			List<Key> actualKeys = new ArrayList<Key>();
+			for(DummyModel model : actual){
+				actualKeys.add(model.getKey());
+			}
+
+			assertThat(actualKeys, hasItems(keys));
 		}
 	}
 

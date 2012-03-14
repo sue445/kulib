@@ -43,4 +43,10 @@ This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](ht
       </dependencies>
     </project>
 
+# History
+* 0.0.2
+ * add MemcacheUtil
+* 0.0.1
+ * first release
+
 [![endorse](http://api.coderwall.com/sue445/endorsecount.png)](http://coderwall.com/sue445)
