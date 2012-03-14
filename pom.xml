@@ -366,7 +366,7 @@ ormEnhancementInclusions=
     </plugins>
   </build>
   <reporting>
-    <outputDirectory>javadoc</outputDirectory>
+    <outputDirectory>site</outputDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
