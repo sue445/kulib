@@ -11,3 +11,4 @@ target/
 www-test/
 jcoverage.ser
 war/WEB-INF/classes/
+javadoc
