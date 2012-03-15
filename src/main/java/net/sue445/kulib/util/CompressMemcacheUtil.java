@@ -169,7 +169,7 @@ public final class CompressMemcacheUtil {
 	 */
 	public static <T> T get(Object key) {
 		try {
-			return deserialize(uncompress((byte[])Memcache.get(key)));
+			return deserialize(uncompress((byte[])Memcache.<byte[]>get(key)));
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "get failed: key=" + key, e);
 			return null;
