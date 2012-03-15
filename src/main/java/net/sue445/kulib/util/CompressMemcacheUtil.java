@@ -167,6 +167,7 @@ public final class CompressMemcacheUtil {
 	 * @param key
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T get(Object key) {
 		try {
 			return (T)deserialize(uncompress((byte[])Memcache.get(key)));
