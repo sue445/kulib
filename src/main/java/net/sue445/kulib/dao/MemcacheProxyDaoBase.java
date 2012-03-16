@@ -157,7 +157,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 	protected M getFromMemcache(Key key) {
 		String memcacheKey = createMemcacheKey(key);
 		try {
-			return Memcache.get(memcacheKey);
+			return Memcache.<M>get(memcacheKey);
 
 		} catch (Exception e) {
 			String message = "[FAILED]Memcache get:key=" + memcacheKey;

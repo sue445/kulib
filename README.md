@@ -43,7 +43,13 @@ This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](ht
       </dependencies>
     </project>
 
+# Javadoc
+http://sue445.github.com/kulib/site/apidocs/index.html
+
 # History
+* 0.0.3
+ * add RegexUtil, UrlGenerateUtil
+ * create Javadoc site
 * 0.0.2
  * add MemcacheUtil
 * 0.0.1

@@ -30,7 +30,7 @@ public class AlertMailService {
 
 
 	/**
-	 * mail.propertiesで初期化する
+	 * initialize as mail.properties
 	 */
 	public AlertMailService(){
 		this.bundleName = DEFAULT_BUNDLE_NAME;
@@ -38,18 +38,18 @@ public class AlertMailService {
 
 	/**
 	 *
-	 * @param bundleName	プロパティファイルから拡張子を除いたもの
+	 * @param bundleName
 	 */
 	public AlertMailService(String bundleName){
 		this.bundleName = bundleName;
 	}
 
 	/**
-	 * エラーメールを送る
+	 * send exception mail
 	 * @param t
 	 * @param request
 	 * @throws IOException
-	 * @return true:メールを送信した / false:除外リストに登録されていたので送信していない
+	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
 	 */
 	public boolean sendMail(Throwable t, HttpServletRequest request){
 		try {
@@ -81,7 +81,7 @@ public class AlertMailService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private String createTextBody(Throwable t, HttpServletRequest request) {
+	protected String createTextBody(Throwable t, HttpServletRequest request) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("[Header]").append(LINE_SEPARATOR);
@@ -97,12 +97,11 @@ public class AlertMailService {
 	}
 
 	/**
-	 * プロパティファイルからkeyに対応したvalueを取得する
+	 * get value in prop
 	 * @param key
 	 * @return
 	 */
-	// package private
-	String getString(String key) {
+	protected String getString(String key) {
 		try {
 			ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
 			return bundle.getString(key);
@@ -112,23 +111,21 @@ public class AlertMailService {
 	}
 
 	/**
-	 * keyがあるかどうか
+	 * exists key
 	 * @param key
 	 * @return
 	 */
-	// package private
-	boolean hasKey(String key){
+	protected boolean hasKey(String key){
 		String value = getString(key);
 		return value != null;
 	}
 
 	/**
-	 * 無視するエラーかどうか
+	 *
 	 * @param t
 	 * @return
 	 */
-	// package private
-	boolean isIgnoreException(Throwable t){
+	protected boolean isIgnoreException(Throwable t){
 		String sourceClassName = t.getClass().getName();
 
 		String[] array = sourceClassName.split("\\.");
@@ -154,8 +151,7 @@ public class AlertMailService {
 	 * @param separator
 	 * @return
 	 */
-	// package private
-	String join(List<String> list, String separator){
+	protected String join(List<String> list, String separator){
 		StringBuilder sb = new StringBuilder();
 
 		boolean isFirst = true;
@@ -171,8 +167,12 @@ public class AlertMailService {
 		return sb.toString();
 	}
 
-	// package private
-	String getStackTraceMessage(Throwable t){
+	/**
+	 *
+	 * @param t
+	 * @return
+	 */
+	protected String getStackTraceMessage(Throwable t){
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(t).append(LINE_SEPARATOR);

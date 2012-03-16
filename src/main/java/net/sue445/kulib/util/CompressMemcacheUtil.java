@@ -167,9 +167,10 @@ public final class CompressMemcacheUtil {
 	 * @param key
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T get(Object key) {
 		try {
-			return deserialize(uncompress((byte[])Memcache.get(key)));
+			return (T)deserialize(uncompress((byte[])Memcache.get(key)));
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "get failed: key=" + key, e);
 			return null;
