@@ -78,6 +78,12 @@ public class AlertMailService {
 		}
 	}
 
+	/**
+	 *
+	 * @param t
+	 * @param request
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	protected String createTextBody(Throwable t, HttpServletRequest request) {
 		StringBuilder sb = new StringBuilder();
