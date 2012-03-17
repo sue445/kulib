@@ -1,6 +1,5 @@
 package net.sue445.kulib.service;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -48,7 +47,6 @@ public class AlertMailService {
 	 * send exception mail
 	 * @param t
 	 * @param request
-	 * @throws IOException
 	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
 	 */
 	public boolean sendMail(Throwable t, HttpServletRequest request){
