@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2012-03-17T01:14:18.150">
+<pmd version="4.3" timestamp="2012-03-17T10:55:48.004">
+<file name="C:\dev\workspace\kulib\src\main\java\net\sue445\kulib\service\AlertMailService.java">
+<violation beginline="3" endline="3" begincolumn="1" endcolumn="27" rule="UnusedImports" ruleset="Import Statement Rules" package="net.sue445.kulib.service" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'java.io.IOException'
+</violation>
+</file>
 </pmd>
