@@ -1,6 +1,4 @@
-.classpath
-.project
-.settings
-target/
-war/
-www-test/
+*
+!.gitignore
+site/
+index.html
