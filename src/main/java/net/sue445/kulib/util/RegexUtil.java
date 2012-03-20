@@ -17,7 +17,7 @@ public final class RegexUtil {
 	/**
 	 * get subexpression group
 	 *
-	 * @param pattern
+	 * @param regex
 	 * @param str
 	 * @return subexpression group. if not matched, return empty
 	 */

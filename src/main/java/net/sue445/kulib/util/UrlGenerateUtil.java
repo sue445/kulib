@@ -78,6 +78,7 @@ public final class UrlGenerateUtil {
 	/**
 	 * URL decode. (ignore exception)
 	 * @param str	source string
+	 * @param encoding
 	 * @return
 	 * <ul>
 	 * <li>success: decoded string</li>
