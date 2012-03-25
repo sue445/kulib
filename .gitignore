@@ -7,3 +7,5 @@
 war/
 www-test/
 target/
+eclipse.lib/
+jcoverage.ser
