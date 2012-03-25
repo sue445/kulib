@@ -47,6 +47,9 @@ This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](ht
 http://sue445.github.com/kulib/site/apidocs/index.html
 
 # History
+* 0.0.4
+ * add JsonController
+ * fix JavaDoc
 * 0.0.3
  * add RegexUtil, UrlGenerateUtil
  * create Javadoc site
