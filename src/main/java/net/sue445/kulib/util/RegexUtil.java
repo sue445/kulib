@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 /**
  * Utility for regular expression
  * @author sue445
+ * @since 0.0.3
  */
 public final class RegexUtil {
 	private RegexUtil(){
@@ -17,7 +18,7 @@ public final class RegexUtil {
 	/**
 	 * get subexpression group
 	 *
-	 * @param pattern
+	 * @param regex
 	 * @param str
 	 * @return subexpression group. if not matched, return empty
 	 */

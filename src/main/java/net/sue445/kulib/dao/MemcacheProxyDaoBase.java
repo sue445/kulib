@@ -69,7 +69,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 
 	/**
 	 * put models and clear Memcache
-	 * @param model
+	 * @param models
 	 */
 	public void putAll(Iterable<M> models){
 		List<Key> keys = new ArrayList<Key>();
@@ -105,6 +105,10 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 		return memcacheKeyList;
 	}
 
+	/**
+	 *
+	 * @param key
+	 */
 	protected void deleteInMemcache(Key key) {
 		String memcacheKey = createMemcacheKey(key);
 		try {
@@ -115,6 +119,10 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 		}
 	}
 
+	/**
+	 *
+	 * @param keys
+	 */
 	protected void deleteAllInMemcache(Iterable<Key> keys) {
 		List<String> memcacheKeys = createMemcacheKeys(keys);
 		try {
@@ -151,7 +159,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 
 	/**
 	 *
-	 * @param memcacheKey
+	 * @param key
 	 * @return
 	 */
 	protected M getFromMemcache(Key key) {
@@ -183,7 +191,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 
 	/**
 	 *
-	 * @param model
+	 * @param models
 	 */
 	protected void putAllToMemcache(Iterable<M> models) {
 		Map<Object, Object> modelMap = new LinkedHashMap<Object, Object>();
@@ -203,9 +211,9 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 	}
 
 	/**
-	 * get model from Memcache or Datastore.<br>
+	 * get models from Memcache or Datastore.<br>
 	 * if not found in Memcache, get from Datastore and put to Memcache.
-	 * @param key
+	 * @param keys
 	 * @return
 	 */
 	public List<M> getAll(Iterable<Key> keys){
@@ -232,7 +240,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 
 	/**
 	 *
-	 * @param memcacheKey
+	 * @param keys
 	 * @return
 	 */
 	protected Map<String, M> getAllFromMemcache(Iterable<Key> keys) {

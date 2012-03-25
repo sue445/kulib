@@ -13,7 +13,8 @@ import org.slim3.util.StringUtil;
 /**
  * Utility for URL generate
  * @author sue445
- * */
+ * @since 0.0.3
+ */
 public final class UrlGenerateUtil {
 	private static final Logger logger = Logger.getLogger(UrlGenerateUtil.class.getName());
 
@@ -78,6 +79,7 @@ public final class UrlGenerateUtil {
 	/**
 	 * URL decode. (ignore exception)
 	 * @param str	source string
+	 * @param encoding
 	 * @return
 	 * <ul>
 	 * <li>success: decoded string</li>
