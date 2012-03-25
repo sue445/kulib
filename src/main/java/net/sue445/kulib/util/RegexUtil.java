@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 /**
  * Utility for regular expression
  * @author sue445
+ * @since 0.0.3
  */
 public final class RegexUtil {
 	private RegexUtil(){

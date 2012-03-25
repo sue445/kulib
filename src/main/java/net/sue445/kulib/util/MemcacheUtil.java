@@ -2,6 +2,11 @@ package net.sue445.kulib.util;
 
 import com.google.apphosting.api.ApiProxy;
 
+/**
+ * Utility for memcache
+ * @author sue445
+ * @since 0.0.2
+ */
 public final class MemcacheUtil {
 	private MemcacheUtil(){
 

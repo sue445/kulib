@@ -13,7 +13,8 @@ import org.slim3.util.StringUtil;
 /**
  * Utility for URL generate
  * @author sue445
- * */
+ * @since 0.0.3
+ */
 public final class UrlGenerateUtil {
 	private static final Logger logger = Logger.getLogger(UrlGenerateUtil.class.getName());
 
