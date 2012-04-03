@@ -47,6 +47,8 @@ This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](ht
 http://sue445.github.com/kulib/site/apidocs/index.html
 
 # History
+* 0.0.5
+ * Issue #1
 * 0.0.4
  * add JsonController
  * fix JavaDoc
