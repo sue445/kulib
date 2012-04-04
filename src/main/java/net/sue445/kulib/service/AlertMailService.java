@@ -55,15 +55,7 @@ public class AlertMailService {
 				return false;
 			}
 
-			MailService.Message msg = new MailService.Message();
-			msg.setSender(getString(SEND_FROM));
-			msg.setTo(getString(KEY_SEND_TO));
-			msg.setSubject(getString(KEY_SUBJECT));
-			msg.setTextBody(createTextBody(t, request));
-
-			if(logger.isLoggable(Level.FINEST)){
-				logger.log(Level.FINEST, "sender=" + msg.getSender() + ", to=" + msg.getTo() + ", subject=" + msg.getSubject() + ", textBody=" + msg.getTextBody());
-			}
+			MailService.Message msg = createMessage(t, request);
 
 			MailService mailService = MailServiceFactory.getMailService();
 			mailService.send(msg);
@@ -78,6 +70,20 @@ public class AlertMailService {
 		}
 	}
 
+	protected MailService.Message createMessage(Throwable t, HttpServletRequest request) {
+		MailService.Message msg = new MailService.Message();
+		msg.setSender(getString(SEND_FROM));
+		msg.setTo(getString(KEY_SEND_TO));
+		msg.setSubject(getString(KEY_SUBJECT));
+		msg.setTextBody(createTextBody(t, request));
+
+		if(logger.isLoggable(Level.FINEST)){
+			logger.log(Level.FINEST, "sender=" + msg.getSender() + ", to=" + msg.getTo() + ", subject=" + msg.getSubject() + ", textBody=" + msg.getTextBody());
+		}
+
+		return msg;
+	}
+
 	/**
 	 * send exception mail to admins
 	 * @param t
@@ -90,15 +96,7 @@ public class AlertMailService {
 				return false;
 			}
 
-			MailService.Message msg = new MailService.Message();
-			msg.setSender(getString(SEND_FROM));
-			msg.setTo(getString(KEY_SEND_TO));
-			msg.setSubject(getString(KEY_SUBJECT));
-			msg.setTextBody(createTextBody(t, request));
-
-			if(logger.isLoggable(Level.FINEST)){
-				logger.log(Level.FINEST, "sender=" + msg.getSender() + ", to=" + msg.getTo() + ", subject=" + msg.getSubject() + ", textBody=" + msg.getTextBody());
-			}
+			MailService.Message msg = createMessage(t, request);
 
 			MailService mailService = MailServiceFactory.getMailService();
 			mailService.sendToAdmins(msg);
