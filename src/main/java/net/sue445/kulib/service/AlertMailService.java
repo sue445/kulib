@@ -79,6 +79,41 @@ public class AlertMailService {
 	}
 
 	/**
+	 * send exception mail to admins
+	 * @param t
+	 * @param request
+	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
+	 */
+	public boolean sendMailToAdmins(Throwable t, HttpServletRequest request){
+		try {
+			if(isIgnoreException(t)){
+				return false;
+			}
+
+			MailService.Message msg = new MailService.Message();
+			msg.setSender(getString(SEND_FROM));
+			msg.setTo(getString(KEY_SEND_TO));
+			msg.setSubject(getString(KEY_SUBJECT));
+			msg.setTextBody(createTextBody(t, request));
+
+			if(logger.isLoggable(Level.FINEST)){
+				logger.log(Level.FINEST, "sender=" + msg.getSender() + ", to=" + msg.getTo() + ", subject=" + msg.getSubject() + ", textBody=" + msg.getTextBody());
+			}
+
+			MailService mailService = MailServiceFactory.getMailService();
+			mailService.sendToAdmins(msg);
+
+			logger.log(Level.INFO, "mail send: " + msg.getSender() + " -> " + msg.getTo());
+
+			return true;
+
+		} catch (Throwable e) {
+			logger.log(Level.WARNING, "mail cannot send", e);
+			return false;
+		}
+	}
+
+	/**
 	 *
 	 * @param t
 	 * @param request
