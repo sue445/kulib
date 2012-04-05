@@ -89,6 +89,7 @@ public class AlertMailService {
 	 * @param t
 	 * @param request
 	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
+	 * @since 0.0.5
 	 */
 	public boolean sendMailToAdmins(Throwable t, HttpServletRequest request){
 		try {
