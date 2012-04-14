@@ -49,6 +49,8 @@ http://sue445.github.com/kulib/site/apidocs/index.html
 # History
 * 0.0.5
  * Issue #1
+ * impl AlertMailService#sendMailToAdmins
+ * CompressMemcacheUtil: package priavte methods -> public
 * 0.0.4
  * add JsonController
  * fix JavaDoc
