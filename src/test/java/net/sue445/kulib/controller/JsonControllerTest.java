@@ -49,11 +49,7 @@ public class JsonControllerTest {
 			String jsonContent = "aaa";
 			controller.responseJson(jsonContent);
 
-			assertJsonContent(jsonContent);
-		}
-
-		private void assertJsonContent(String expected) throws IOException {
-			assertJsonContent(expected, "UTF-8");
+			assertJsonContent(jsonContent, "UTF-8");
 		}
 
 		private void assertJsonContent(String expected, String encoding)
@@ -70,11 +66,7 @@ public class JsonControllerTest {
 			String jsonContent = "aaa";
 			controller.responseJson(jsonContent, Charset.forName("Shift_JIS"));
 
-			assertJsonContentSJIS(jsonContent);
-		}
-
-		private void assertJsonContentSJIS(String expected) throws IOException {
-			assertJsonContent(expected, "Shift_JIS");
+			assertJsonContent(jsonContent, "Shift_JIS");
 		}
 
 		protected String getResponse() throws IOException {
