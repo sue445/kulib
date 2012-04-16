@@ -53,8 +53,7 @@ public class JsonControllerTest {
 		}
 
 		private void assertJsonContent(String expected) throws IOException {
-			String encoding = "UTF-8";
-			assertJsonContent(expected, encoding);
+			assertJsonContent(expected, "UTF-8");
 		}
 
 		private void assertJsonContent(String expected, String encoding)
@@ -75,8 +74,7 @@ public class JsonControllerTest {
 		}
 
 		private void assertJsonContentSJIS(String expected) throws IOException {
-			String encoding = "Shift_JIS";
-			assertJsonContent(expected, encoding);
+			assertJsonContent(expected, "Shift_JIS");
 		}
 
 		protected String getResponse() throws IOException {
