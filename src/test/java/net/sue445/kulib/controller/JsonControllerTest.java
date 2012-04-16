@@ -54,6 +54,11 @@ public class JsonControllerTest {
 
 		private void assertJsonContent(String expected) throws IOException {
 			String encoding = "UTF-8";
+			assertJsonContent(expected, encoding);
+		}
+
+		private void assertJsonContent(String expected, String encoding)
+				throws IOException {
 			assertThat(tester.response.getContentLength(), is(expected.length()));
 			assertThat(tester.response.getContentType(), is("text/javascript;charset=" + encoding));
 			assertThat(tester.response.getCharacterEncoding(), is(encoding));
@@ -71,11 +76,7 @@ public class JsonControllerTest {
 
 		private void assertJsonContentSJIS(String expected) throws IOException {
 			String encoding = "Shift_JIS";
-			assertThat(tester.response.getContentLength(), is(expected.length()));
-			assertThat(tester.response.getContentType(), is("text/javascript;charset=" +encoding));
-			assertThat(tester.response.getCharacterEncoding(), is(encoding));
-			String actual = getResponse();
-			assertThat(actual, is(expected));
+			assertJsonContent(expected, encoding);
 		}
 
 		protected String getResponse() throws IOException {
