@@ -20,6 +20,8 @@ import com.google.appengine.api.memcache.Expiration;
 
 /**
  * put a compressed serialize object to Memcache
+ * <br>
+ * note: this util is not support hot reloading
  * @author sue445
  *
  */
