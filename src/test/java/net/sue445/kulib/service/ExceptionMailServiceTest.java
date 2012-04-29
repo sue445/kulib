@@ -16,7 +16,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 
 public class ExceptionMailServiceTest extends ControllerTestCase {
 
-	private ExceptionMailService service = new ExceptionMailService("AlertMailServiceTest");
+	private ExceptionMailService service = new ExceptionMailService("ExceptionMailServiceTest");
 
 	@Test
 	public void test() throws Exception {
