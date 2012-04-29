@@ -14,9 +14,9 @@ import org.slim3.tester.ControllerTestCase;
 import com.google.appengine.api.mail.MailServicePb.MailMessage;
 import com.google.apphosting.api.DeadlineExceededException;
 
-public class AlertMailServiceTest extends ControllerTestCase {
+public class ExceptionMailServiceTest extends ControllerTestCase {
 
-	private AlertMailService service = new AlertMailService("AlertMailServiceTest");
+	private ExceptionMailService service = new ExceptionMailService("AlertMailServiceTest");
 
 	@Test
 	public void test() throws Exception {
@@ -44,7 +44,7 @@ public class AlertMailServiceTest extends ControllerTestCase {
 	@Test
 	public void sendMail() throws Exception {
 		tester.request.addHeader("name", "value");
-		boolean actual = service.sendMail(new IllegalAccessError("test"), tester.request);
+		boolean actual = service.send(new IllegalAccessError("test"), tester.request);
 		assertThat(actual, is(true));
 		assertThat(tester.mailMessages.size(), is(1));
 
@@ -57,7 +57,7 @@ public class AlertMailServiceTest extends ControllerTestCase {
 
 	@Test
 	public void sendMail_Ignored() throws Exception {
-		boolean actual = service.sendMail(new DeadlineExceededException("test"), tester.request);
+		boolean actual = service.send(new DeadlineExceededException("test"), tester.request);
 		assertThat(actual, is(false));
 	}
 
@@ -118,7 +118,7 @@ public class AlertMailServiceTest extends ControllerTestCase {
 	@Test
 	public void sendMailToAdmins() throws Exception {
 		tester.request.addHeader("name", "value");
-		boolean actual = service.sendMailToAdmins(new IllegalAccessError("test"), tester.request);
+		boolean actual = service.sendToAdmins(new IllegalAccessError("test"), tester.request);
 		assertThat(actual, is(true));
 		assertThat(tester.mailMessages.size(), is(1));
 

@@ -15,8 +15,8 @@ import com.google.appengine.api.mail.MailService;
 import com.google.appengine.api.mail.MailServiceFactory;
 
 
-public class AlertMailService {
-	protected static final Logger logger = Logger.getLogger(AlertMailService.class.getName());
+public class ExceptionMailService {
+	protected static final Logger logger = Logger.getLogger(ExceptionMailService.class.getName());
 
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	private static final String SEND_FROM = "sendFrom";
@@ -31,7 +31,7 @@ public class AlertMailService {
 	/**
 	 * initialize as mail.properties
 	 */
-	public AlertMailService(){
+	public ExceptionMailService(){
 		this.bundleName = DEFAULT_BUNDLE_NAME;
 	}
 
@@ -39,7 +39,7 @@ public class AlertMailService {
 	 *
 	 * @param bundleName
 	 */
-	public AlertMailService(String bundleName){
+	public ExceptionMailService(String bundleName){
 		this.bundleName = bundleName;
 	}
 
@@ -49,7 +49,7 @@ public class AlertMailService {
 	 * @param request
 	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
 	 */
-	public boolean sendMail(Throwable t, HttpServletRequest request){
+	public boolean send(Throwable t, HttpServletRequest request){
 		try {
 			if(isIgnoreException(t)){
 				return false;
@@ -91,7 +91,7 @@ public class AlertMailService {
 	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
 	 * @since 0.0.5
 	 */
-	public boolean sendMailToAdmins(Throwable t, HttpServletRequest request){
+	public boolean sendToAdmins(Throwable t, HttpServletRequest request){
 		try {
 			if(isIgnoreException(t)){
 				return false;
