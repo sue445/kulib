@@ -64,7 +64,7 @@ public class ExceptionMailService {
 
 			return true;
 
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			logger.log(Level.WARNING, "mail cannot send", e);
 			return false;
 		}
@@ -106,7 +106,7 @@ public class ExceptionMailService {
 
 			return true;
 
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			logger.log(Level.WARNING, "mail cannot send", e);
 			return false;
 		}
