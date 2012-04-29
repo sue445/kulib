@@ -11,8 +11,8 @@ import org.slim3.util.StringUtil;
  * @author sue445
  *
  */
-public final class CheckUtil {
-	private CheckUtil(){
+public final class EmptyCheckUtil {
+	private EmptyCheckUtil(){
 
 	}
 

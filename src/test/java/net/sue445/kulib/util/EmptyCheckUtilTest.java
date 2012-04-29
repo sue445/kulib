@@ -11,71 +11,71 @@ import java.util.Map;
 import org.junit.Test;
 
 
-public class CheckUtilTest {
+public class EmptyCheckUtilTest {
 	@Test
 	public void isEmptyCollection_Null(){
-		assertThat(CheckUtil.isEmpty((List<?>)null), is(true));
+		assertThat(EmptyCheckUtil.isEmpty((List<?>)null), is(true));
 	}
 
 	@Test
 	public void isEmptyCollection_Empty(){
 		ArrayList<String> list = new ArrayList<String>();
-		assertThat(CheckUtil.isEmpty(list), is(true));
+		assertThat(EmptyCheckUtil.isEmpty(list), is(true));
 	}
 
 	@Test
 	public void isEmptyCollection_NotEmpty(){
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("aaa");
-		assertThat(CheckUtil.isEmpty(list), is(false));
+		assertThat(EmptyCheckUtil.isEmpty(list), is(false));
 	}
 
 	@Test
 	public void isNotEmptyCollection_Null(){
-		assertThat(CheckUtil.isNotEmpty((List<?>)null), is(false));
+		assertThat(EmptyCheckUtil.isNotEmpty((List<?>)null), is(false));
 	}
 
 	@Test
 	public void isEmptyMap_Null(){
-		assertThat(CheckUtil.isEmpty((Map<?,?>)null), is(true));
+		assertThat(EmptyCheckUtil.isEmpty((Map<?,?>)null), is(true));
 	}
 
 	@Test
 	public void isEmptyMap_Empty(){
 		Map<String, String> map = new HashMap<String, String>();
-		assertThat(CheckUtil.isEmpty(map), is(true));
+		assertThat(EmptyCheckUtil.isEmpty(map), is(true));
 	}
 
 	@Test
 	public void isEmptyMap_NotEmpty(){
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("aaa", "bbb");
-		assertThat(CheckUtil.isEmpty(map), is(false));
+		assertThat(EmptyCheckUtil.isEmpty(map), is(false));
 	}
 
 	@Test
 	public void isNotEmptyMap_Null(){
-		assertThat(CheckUtil.isNotEmpty((Map<?,?>)null), is(false));
+		assertThat(EmptyCheckUtil.isNotEmpty((Map<?,?>)null), is(false));
 	}
 
 	@Test
 	public void isEmptyArray_Null(){
-		assertThat(CheckUtil.isEmpty((String[])null), is(true));
+		assertThat(EmptyCheckUtil.isEmpty((String[])null), is(true));
 	}
 
 	@Test
 	public void isEmptyArray_Empty(){
-		assertThat(CheckUtil.isEmpty(new String[0]), is(true));
+		assertThat(EmptyCheckUtil.isEmpty(new String[0]), is(true));
 	}
 
 	@Test
 	public void isEmptyArray_NotEmpty(){
-		assertThat(CheckUtil.isEmpty(new String[]{"1"}), is(false));
+		assertThat(EmptyCheckUtil.isEmpty(new String[]{"1"}), is(false));
 	}
 
 	@Test
 	public void isNotEmptyArray_Null(){
-		assertThat(CheckUtil.isNotEmpty((String[])null), is(false));
+		assertThat(EmptyCheckUtil.isNotEmpty((String[])null), is(false));
 	}
 }
 
