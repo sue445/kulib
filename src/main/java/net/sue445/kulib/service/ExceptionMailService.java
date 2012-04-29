@@ -47,7 +47,7 @@ public class ExceptionMailService {
 	 * send exception mail
 	 * @param t
 	 * @param request
-	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
+	 * @return true:sended mail / false:not send mail(ex. Exception is ignored)
 	 */
 	public boolean send(Throwable t, HttpServletRequest request){
 		try {
@@ -88,7 +88,7 @@ public class ExceptionMailService {
 	 * send exception mail to admins
 	 * @param t
 	 * @param request
-	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
+	 * @return true:sended mail / false:not send mail(ex. Exception is ignored)
 	 * @since 0.0.5
 	 */
 	public boolean sendToAdmins(Throwable t, HttpServletRequest request){
