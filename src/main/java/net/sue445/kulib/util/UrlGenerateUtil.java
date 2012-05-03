@@ -125,7 +125,7 @@ public final class UrlGenerateUtil {
 	 * @param values
 	 */
 	public static <T> void appendParameters(StringBuilder sb, String name, T[] values){
-		if(CheckUtil.isEmpty(values)){
+		if(EmptyCheckUtil.isEmpty(values)){
 			return;
 		}
 
@@ -141,7 +141,7 @@ public final class UrlGenerateUtil {
 	 * @return
 	 */
 	public static String createUrl(String baseUrl, Map<String, Object> params){
-		if(CheckUtil.isEmpty(params)){
+		if(EmptyCheckUtil.isEmpty(params)){
 			return baseUrl;
 		}
 

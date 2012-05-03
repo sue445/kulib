@@ -20,6 +20,8 @@ import com.google.appengine.api.memcache.Expiration;
 
 /**
  * put a compressed serialize object to Memcache
+ * <br>
+ * note: this util is not support hot reloading
  * @author sue445
  *
  */
@@ -63,13 +65,12 @@ public final class CompressMemcacheUtil {
 	}
 
 	/**
-	 *
-	 * @param src
-	 * @return
+	 * serialize a object
+	 * @param src	a object
+	 * @return	serialized binary
 	 * @throws IOException
 	 */
-	// package private
-	static byte[] serialize(Object src) throws IOException {
+	public static byte[] serialize(Object src) throws IOException {
 		if(src == null){
 			return null;
 		}
@@ -120,13 +121,12 @@ public final class CompressMemcacheUtil {
 	}
 
 	/**
-	 *
-	 * @param src
-	 * @return
+	 * compress binary
+	 * @param src	uncompressed binary
+	 * @return		compressed binary
 	 * @throws IOException
 	 */
-	// package private
-	static byte[] compress(byte[] src) throws IOException {
+	public static byte[] compress(byte[] src) throws IOException {
 		if(isEmpty(src)){
 			return null;
 		}
@@ -178,13 +178,12 @@ public final class CompressMemcacheUtil {
 	}
 
 	/**
-	 *
-	 * @param src
-	 * @return
+	 * uncompress binary
+	 * @param src	compressed binary
+	 * @return		uncompressed binary
 	 * @throws IOException
 	 */
-	// package private
-	static byte[] uncompress(byte[] src) throws IOException {
+	public static byte[] uncompress(byte[] src) throws IOException {
 		if(isEmpty(src)){
 			return null;
 		}
@@ -224,14 +223,14 @@ public final class CompressMemcacheUtil {
 	}
 
 	/**
-	 *
-	 * @param src
-	 * @return
+	 * deserialize to object
+	 * @param src	serialized binary
+	 * @return		deserialized object
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	static <T> T deserialize(byte[] src) throws IOException, ClassNotFoundException {
+	public static <T> T deserialize(byte[] src) throws IOException, ClassNotFoundException {
 		if(isEmpty(src)){
 			return null;
 		}

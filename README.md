@@ -47,13 +47,17 @@ This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](ht
 http://sue445.github.com/kulib/site/apidocs/index.html
 
 # History
-* 0.0.4
+* 0.0.5
+ * Issue #1
+ * impl AlertMailService#sendMailToAdmins
+ * CompressMemcacheUtil: package priavte methods -> public
+* [0.0.4](https://github.com/sue445/kulib/commit/5192c5636d08d67e5b193e0f0af113dd2f45edc7)
  * add JsonController
  * fix JavaDoc
-* 0.0.3
+* [0.0.3](https://github.com/sue445/kulib/commit/0a956220db35fef8124af3246d2e533198ee6dcd)
  * add RegexUtil, UrlGenerateUtil
  * create Javadoc site
-* 0.0.2
+* [0.0.2](https://github.com/sue445/kulib/commit/442d2612a7a42f7a7e416b0bf9ff8a4bbbe7e4d9)
  * add MemcacheUtil
 * 0.0.1
  * first release

@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,14 +49,24 @@ public class JsonControllerTest {
 			String jsonContent = "aaa";
 			controller.responseJson(jsonContent);
 
-			assertJsonContent(jsonContent);
+			assertJsonContent(jsonContent, "UTF-8");
 		}
 
-		private void assertJsonContent(String expected) throws IOException {
+		private void assertJsonContent(String expected, String encoding)
+				throws IOException {
 			assertThat(tester.response.getContentLength(), is(expected.length()));
-			assertThat(tester.response.getContentType(), is("text/javascript;charset=UTF-8"));
+			assertThat(tester.response.getContentType(), is("text/javascript;charset=" + encoding));
+			assertThat(tester.response.getCharacterEncoding(), is(encoding));
 			String actual = getResponse();
 			assertThat(actual, is(expected));
+		}
+
+		@Test
+		public void responseJson_SJIS() throws Exception {
+			String jsonContent = "aaa";
+			controller.responseJson(jsonContent, Charset.forName("Shift_JIS"));
+
+			assertJsonContent(jsonContent, "Shift_JIS");
 		}
 
 		protected String getResponse() throws IOException {

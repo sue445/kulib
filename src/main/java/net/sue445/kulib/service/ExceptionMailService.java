@@ -15,8 +15,8 @@ import com.google.appengine.api.mail.MailService;
 import com.google.appengine.api.mail.MailServiceFactory;
 
 
-public class AlertMailService {
-	protected static final Logger logger = Logger.getLogger(AlertMailService.class.getName());
+public class ExceptionMailService {
+	protected static final Logger logger = Logger.getLogger(ExceptionMailService.class.getName());
 
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	private static final String SEND_FROM = "sendFrom";
@@ -31,7 +31,7 @@ public class AlertMailService {
 	/**
 	 * initialize as mail.properties
 	 */
-	public AlertMailService(){
+	public ExceptionMailService(){
 		this.bundleName = DEFAULT_BUNDLE_NAME;
 	}
 
@@ -39,7 +39,7 @@ public class AlertMailService {
 	 *
 	 * @param bundleName
 	 */
-	public AlertMailService(String bundleName){
+	public ExceptionMailService(String bundleName){
 		this.bundleName = bundleName;
 	}
 
@@ -47,23 +47,15 @@ public class AlertMailService {
 	 * send exception mail
 	 * @param t
 	 * @param request
-	 * @return true:sended mail / false:not send mail(ex. Throwable is ignored)
+	 * @return true:sended mail / false:not send mail(ex. Exception is ignored)
 	 */
-	public boolean sendMail(Throwable t, HttpServletRequest request){
+	public boolean send(Throwable t, HttpServletRequest request){
 		try {
 			if(isIgnoreException(t)){
 				return false;
 			}
 
-			MailService.Message msg = new MailService.Message();
-			msg.setSender(getString(SEND_FROM));
-			msg.setTo(getString(KEY_SEND_TO));
-			msg.setSubject(getString(KEY_SUBJECT));
-			msg.setTextBody(createTextBody(t, request));
-
-			if(logger.isLoggable(Level.FINEST)){
-				logger.log(Level.FINEST, "sender=" + msg.getSender() + ", to=" + msg.getTo() + ", subject=" + msg.getSubject() + ", textBody=" + msg.getTextBody());
-			}
+			MailService.Message msg = createMessage(t, request);
 
 			MailService mailService = MailServiceFactory.getMailService();
 			mailService.send(msg);
@@ -72,7 +64,49 @@ public class AlertMailService {
 
 			return true;
 
-		} catch (Throwable e) {
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "mail cannot send", e);
+			return false;
+		}
+	}
+
+	protected MailService.Message createMessage(Throwable t, HttpServletRequest request) {
+		MailService.Message msg = new MailService.Message();
+		msg.setSender(getString(SEND_FROM));
+		msg.setTo(getString(KEY_SEND_TO));
+		msg.setSubject(getString(KEY_SUBJECT));
+		msg.setTextBody(createTextBody(t, request));
+
+		if(logger.isLoggable(Level.FINEST)){
+			logger.log(Level.FINEST, "sender=" + msg.getSender() + ", to=" + msg.getTo() + ", subject=" + msg.getSubject() + ", textBody=" + msg.getTextBody());
+		}
+
+		return msg;
+	}
+
+	/**
+	 * send exception mail to admins
+	 * @param t
+	 * @param request
+	 * @return true:sended mail / false:not send mail(ex. Exception is ignored)
+	 * @since 0.0.5
+	 */
+	public boolean sendToAdmins(Throwable t, HttpServletRequest request){
+		try {
+			if(isIgnoreException(t)){
+				return false;
+			}
+
+			MailService.Message msg = createMessage(t, request);
+
+			MailService mailService = MailServiceFactory.getMailService();
+			mailService.sendToAdmins(msg);
+
+			logger.log(Level.INFO, "mail send: " + msg.getSender() + " -> " + msg.getTo());
+
+			return true;
+
+		} catch (Exception e) {
 			logger.log(Level.WARNING, "mail cannot send", e);
 			return false;
 		}

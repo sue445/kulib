@@ -113,7 +113,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 		String memcacheKey = createMemcacheKey(key);
 		try {
 			Memcache.delete(memcacheKey);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			String message = "[FAILED]Memcache delete:key=" + memcacheKey;
 			logger.log(Level.WARNING, message, e);
 		}
@@ -127,7 +127,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 		List<String> memcacheKeys = createMemcacheKeys(keys);
 		try {
 			Memcache.deleteAll(memcacheKeys);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			String message = "[FAILED]Memcache delete:key=" + memcacheKeys;
 			logger.log(Level.WARNING, message, e);
 		}
@@ -167,7 +167,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 		try {
 			return Memcache.<M>get(memcacheKey);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			String message = "[FAILED]Memcache get:key=" + memcacheKey;
 			logger.log(Level.WARNING, message, e);
 			return null;
@@ -183,7 +183,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 		try {
 			Memcache.put(memcacheKey, model);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			String message = "[FAILED]Memcache get:key=" + memcacheKey;
 			logger.log(Level.WARNING, message, e);
 		}
@@ -204,7 +204,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 		try {
 			Memcache.putAll(modelMap);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			String message = "[FAILED]Memcache get:key=" + modelMap.keySet();
 			logger.log(Level.WARNING, message, e);
 		}
@@ -257,7 +257,7 @@ public abstract class MemcacheProxyDaoBase<M extends Slim3Model> {
 			}
 			return resultMap;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			String message = "[FAILED]Memcache get:key=" + memcacheKeys;
 			logger.log(Level.WARNING, message, e);
 			return null;

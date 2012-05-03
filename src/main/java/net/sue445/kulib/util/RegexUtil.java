@@ -44,7 +44,7 @@ public final class RegexUtil {
 	 */
 	public static boolean isInexactMatch(String regex, String str){
 		List<String> list = getSubexpressionGroup(regex, str);
-		return CheckUtil.isNotEmpty(list);
+		return EmptyCheckUtil.isNotEmpty(list);
 	}
 
 }
