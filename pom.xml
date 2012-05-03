@@ -3,7 +3,7 @@
   <groupId>net.sue445</groupId>
   <artifactId>kulib</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.0.5</version>
   <name>kulib</name>
   <properties>
     <slim3.version>1.0.15</slim3.version>
