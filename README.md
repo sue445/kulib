@@ -47,8 +47,10 @@ This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](ht
 http://sue445.github.com/kulib/site/apidocs/index.html
 
 # History
-* 0.0.5
+* [0.0.5](https://github.com/sue445/kulib/commit/6494683a371b7bea53a8972528ea84070fecc538)
  * Issue #1
+ * Issue #2
+ * Issue #3
  * impl AlertMailService#sendMailToAdmins
  * CompressMemcacheUtil: package priavte methods -> public
 * [0.0.4](https://github.com/sue445/kulib/commit/5192c5636d08d67e5b193e0f0af113dd2f45edc7)
