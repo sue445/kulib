@@ -54,7 +54,9 @@ public class JsonControllerTest {
 
 		private void assertJsonContent(String expected, String encoding)
 				throws IOException {
-			assertThat(tester.response.getContentLength(), is(expected.length()));
+			int length = expected == null ? 0 : expected.length();
+
+			assertThat(tester.response.getContentLength(), is(length));
 			assertThat(tester.response.getContentType(), is("text/javascript;charset=" + encoding));
 			assertThat(tester.response.getCharacterEncoding(), is(encoding));
 			String actual = getResponse();
@@ -71,6 +73,14 @@ public class JsonControllerTest {
 
 		protected String getResponse() throws IOException {
 			return tester.response.getOutputAsString();
+		}
+
+		@Test
+		public void responseJson_Null() throws Exception {
+			String jsonContent = null;
+			controller.responseJson(jsonContent);
+
+			assertJsonContent("", "UTF-8");
 		}
 	}
 
