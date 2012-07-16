@@ -49,6 +49,7 @@ http://sue445.github.com/kulib/site/apidocs/index.html
 # History
 * [0.0.6]()
  * Issue #4
+ * Tested on Slim3 1.0.16 and appengine 1.7.0
 * [0.0.5](https://github.com/sue445/kulib/commit/6494683a371b7bea53a8972528ea84070fecc538)
  * Issue #1
  * Issue #2
