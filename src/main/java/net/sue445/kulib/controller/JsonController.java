@@ -84,11 +84,18 @@ public abstract class JsonController extends SimpleController{
 	 * @throws IOException
 	 */
 	protected Navigation response(String content, Charset charset, String contentType) throws IOException {
-		byte[] bytes = content.getBytes(charset);
 		response.setCharacterEncoding(charset.toString());
 		response.setContentType(contentType);
-		response.setContentLength(bytes.length);
-		response.getOutputStream().write(bytes);
+
+		if(StringUtil.isEmpty(content)){
+			response.setContentLength(0);
+
+		} else{
+			byte[] bytes = content.getBytes(charset);
+			response.setContentLength(bytes.length);
+			response.getOutputStream().write(bytes);
+		}
+
 		response.flushBuffer();
 		return null;
 	}
