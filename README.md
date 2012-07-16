@@ -47,7 +47,7 @@ This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](ht
 http://sue445.github.com/kulib/site/apidocs/index.html
 
 # History
-* [0.0.6]()
+* [0.0.6](https://github.com/sue445/kulib/commit/75eefd290c7df5abecf6e8186abbe15a29c46fc0)
  * Issue #4
  * Tested on Slim3 1.0.16 and appengine 1.7.0
 * [0.0.5](https://github.com/sue445/kulib/commit/6494683a371b7bea53a8972528ea84070fecc538)
