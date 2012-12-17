@@ -407,6 +407,11 @@ ormEnhancementInclusions=
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.5.10.201208310627</version>
+      </plugin>
+      <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
         <configuration>
           <linkXref>true</linkXref>
