@@ -5,7 +5,7 @@ readonly BUILD_NUMBER=$2
 readonly BUILD_ID=$3
 
 readonly TMP_DIR=tmp
-readonly REPO_URL="git@github.com:sue445/s3tiger.git"
+readonly REPO_URL="git@github.com:sue445/kulib.git"
 readonly BRANCH="gh-pages"
 
 rm -rf ${WORKSPACE}/${TMP_DIR}
