@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ja"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MemcacheProxyDaoBase.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">kulib</a> &gt; <a href="index.html" class="el_package">net.sue445.kulib.dao</a> &gt; <span class="el_source">MemcacheProxyDaoBase.java</span></div><h1>MemcacheProxyDaoBase.java</h1><pre class="source lang-java linenums">package net.sue445.kulib.dao;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import net.sue445.kulib.model.Slim3Model;
+import net.sue445.kulib.util.MemcacheUtil;
+
+import org.slim3.datastore.Datastore;
+import org.slim3.datastore.DatastoreUtil;
+import org.slim3.datastore.ModelMeta;
+import org.slim3.memcache.Memcache;
+
+import com.google.appengine.api.datastore.Key;
+
+/**
+ * Datasrore access proxy dao with Memcache
+ * @author sue445
+ *
+ * @param &lt;M&gt;	ModelClass
+ */
+public abstract class MemcacheProxyDaoBase&lt;M extends Slim3Model&gt; {
+<span class="fc" id="L29">	protected static final Logger logger = Logger.getLogger(MemcacheProxyDaoBase.class.getName());</span>
+
+	/**
+	 * The model class.
+	 */
+	protected Class&lt;M&gt; modelClass;
+
+	/**
+	 * The meta data of model.
+	 */
+	protected ModelMeta&lt;M&gt; m;
+
+	/**
+	 * Constructor.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L45">	public MemcacheProxyDaoBase() {</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">		for (Class&lt;?&gt; c = getClass(); c != Object.class; c = c.getSuperclass()) {</span>
+<span class="fc" id="L47">			Type type = c.getGenericSuperclass();</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">			if (type instanceof ParameterizedType) {</span>
+<span class="fc" id="L49">				modelClass =</span>
+					((Class&lt;M&gt;) ((ParameterizedType) type)
+						.getActualTypeArguments()[0]);
+<span class="fc" id="L52">				break;</span>
+			}
+		}
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		if (modelClass == null) {</span>
+<span class="nc" id="L56">			throw new IllegalStateException(&quot;No model class is found.&quot;);</span>
+		}
+<span class="fc" id="L58">		m = DatastoreUtil.getModelMeta(modelClass);</span>
+<span class="fc" id="L59">	}</span>
+
+	/**
+	 * put model and clear Memcache
+	 * @param model
+	 */
+	public void put(M model){
+<span class="fc" id="L66">		deleteInMemcache(model.getKey());</span>
+<span class="fc" id="L67">		Datastore.putAsync(model);</span>
+<span class="fc" id="L68">	}</span>
+
+	/**
+	 * put models and clear Memcache
+	 * @param models
+	 */
+	public void putAll(Iterable&lt;M&gt; models){
+<span class="fc" id="L75">		List&lt;Key&gt; keys = new ArrayList&lt;Key&gt;();</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">		for(M model : models){</span>
+<span class="fc" id="L77">			keys.add(model.getKey());</span>
+		}
+
+<span class="fc" id="L80">		deleteAllInMemcache(keys);</span>
+<span class="fc" id="L81">		Datastore.putAsync(models);</span>
+<span class="fc" id="L82">	}</span>
+
+	/**
+	 *
+	 * @param key
+	 * @return
+	 */
+	protected String createMemcacheKey(Key key){
+<span class="fc" id="L90">		return MemcacheUtil.createKeyPrefix(this.getClass()) + key.toString();</span>
+	}
+
+	/**
+	 *
+	 * @param keys
+	 * @return
+	 */
+	protected List&lt;String&gt; createMemcacheKeys(Iterable&lt;Key&gt; keys){
+<span class="fc" id="L99">		List&lt;String&gt; memcacheKeyList = new ArrayList&lt;String&gt;();</span>
+
+<span class="fc bfc" id="L101" title="All 2 branches covered.">		for(Key key : keys){</span>
+<span class="fc" id="L102">			memcacheKeyList.add(createMemcacheKey(key));</span>
+		}
+
+<span class="fc" id="L105">		return memcacheKeyList;</span>
+	}
+
+	/**
+	 *
+	 * @param key
+	 */
+	protected void deleteInMemcache(Key key) {
+<span class="fc" id="L113">		String memcacheKey = createMemcacheKey(key);</span>
+		try {
+<span class="fc" id="L115">			Memcache.delete(memcacheKey);</span>
+<span class="nc" id="L116">		} catch (RuntimeException e) {</span>
+<span class="nc" id="L117">			String message = &quot;[FAILED]Memcache delete:key=&quot; + memcacheKey;</span>
+<span class="nc" id="L118">			logger.log(Level.WARNING, message, e);</span>
+<span class="fc" id="L119">		}</span>
+<span class="fc" id="L120">	}</span>
+
+	/**
+	 *
+	 * @param keys
+	 */
+	protected void deleteAllInMemcache(Iterable&lt;Key&gt; keys) {
+<span class="fc" id="L127">		List&lt;String&gt; memcacheKeys = createMemcacheKeys(keys);</span>
+		try {
+<span class="fc" id="L129">			Memcache.deleteAll(memcacheKeys);</span>
+<span class="nc" id="L130">		} catch (RuntimeException e) {</span>
+<span class="nc" id="L131">			String message = &quot;[FAILED]Memcache delete:key=&quot; + memcacheKeys;</span>
+<span class="nc" id="L132">			logger.log(Level.WARNING, message, e);</span>
+<span class="fc" id="L133">		}</span>
+<span class="fc" id="L134">	}</span>
+
+	/**
+	 * get model from Memcache or Datastore.&lt;br&gt;
+	 * if not found in Memcache, get from Datastore and put to Memcache.
+	 * @param key
+	 * @return
+	 */
+	public M get(Key key){
+<span class="fc" id="L143">		M memcacheModel = getFromMemcache(key);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">		if(memcacheModel != null){</span>
+<span class="fc" id="L145">			logger.log(Level.FINEST, &quot;get from Memcache: key=&quot; + key);</span>
+<span class="fc" id="L146">			return memcacheModel;</span>
+		}
+
+<span class="fc" id="L149">		M datastoreModel = Datastore.getOrNull(m, key);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">		if(datastoreModel == null){</span>
+<span class="fc" id="L151">			return null;</span>
+		}
+
+<span class="fc" id="L154">		putToMemcache(datastoreModel);</span>
+
+<span class="fc" id="L156">		logger.log(Level.FINEST, &quot;get from Datastore: key=&quot; + key);</span>
+<span class="fc" id="L157">		return datastoreModel;</span>
+	}
+
+	/**
+	 *
+	 * @param key
+	 * @return
+	 */
+	protected M getFromMemcache(Key key) {
+<span class="fc" id="L166">		String memcacheKey = createMemcacheKey(key);</span>
+		try {
+<span class="fc" id="L168">			return Memcache.&lt;M&gt;get(memcacheKey);</span>
+
+<span class="nc" id="L170">		} catch (RuntimeException e) {</span>
+<span class="nc" id="L171">			String message = &quot;[FAILED]Memcache get:key=&quot; + memcacheKey;</span>
+<span class="nc" id="L172">			logger.log(Level.WARNING, message, e);</span>
+<span class="nc" id="L173">			return null;</span>
+		}
+	}
+
+	/**
+	 *
+	 * @param model
+	 */
+	protected void putToMemcache(M model) {
+<span class="fc" id="L182">		String memcacheKey = createMemcacheKey(model.getKey());</span>
+		try {
+<span class="fc" id="L184">			Memcache.put(memcacheKey, model);</span>
+
+<span class="nc" id="L186">		} catch (RuntimeException e) {</span>
+<span class="nc" id="L187">			String message = &quot;[FAILED]Memcache get:key=&quot; + memcacheKey;</span>
+<span class="nc" id="L188">			logger.log(Level.WARNING, message, e);</span>
+<span class="fc" id="L189">		}</span>
+<span class="fc" id="L190">	}</span>
+
+	/**
+	 *
+	 * @param models
+	 */
+	protected void putAllToMemcache(Iterable&lt;M&gt; models) {
+<span class="fc" id="L197">		Map&lt;Object, Object&gt; modelMap = new LinkedHashMap&lt;Object, Object&gt;();</span>
+
+<span class="fc bfc" id="L199" title="All 2 branches covered.">		for(M model : models){</span>
+<span class="fc" id="L200">			String memcacheKey = createMemcacheKey(model.getKey());</span>
+<span class="fc" id="L201">			modelMap.put(memcacheKey, model);</span>
+<span class="fc" id="L202">		}</span>
+
+		try {
+<span class="fc" id="L205">			Memcache.putAll(modelMap);</span>
+
+<span class="nc" id="L207">		} catch (RuntimeException e) {</span>
+<span class="nc" id="L208">			String message = &quot;[FAILED]Memcache get:key=&quot; + modelMap.keySet();</span>
+<span class="nc" id="L209">			logger.log(Level.WARNING, message, e);</span>
+<span class="fc" id="L210">		}</span>
+<span class="fc" id="L211">	}</span>
+
+	/**
+	 * get models from Memcache or Datastore.&lt;br&gt;
+	 * if not found in Memcache, get from Datastore and put to Memcache.
+	 * @param keys
+	 * @return
+	 */
+	public List&lt;M&gt; getAll(Iterable&lt;Key&gt; keys){
+<span class="fc" id="L220">		Map&lt;String, M&gt; memcacheMap = getAllFromMemcache(keys);</span>
+
+<span class="fc" id="L222">		List&lt;Key&gt; datastoreKeys = new ArrayList&lt;Key&gt;();</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">		for(Key key : keys){</span>
+<span class="fc" id="L224">			String memcacheKey = createMemcacheKey(key);</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">			if(!memcacheMap.containsKey(memcacheKey)){</span>
+				// NotFound in Memcache, and get from Datastore
+<span class="fc" id="L227">				datastoreKeys.add(key);</span>
+			}
+<span class="fc" id="L229">		}</span>
+
+<span class="fc" id="L231">		List&lt;M&gt; datastoreList = Datastore.get(m, datastoreKeys);</span>
+
+<span class="fc" id="L233">		List&lt;M&gt; result = new ArrayList&lt;M&gt;(memcacheMap.values());</span>
+<span class="fc" id="L234">		result.addAll(datastoreList);</span>
+
+<span class="fc" id="L236">		putAllToMemcache(datastoreList);</span>
+
+<span class="fc" id="L238">		return result;</span>
+	}
+
+	/**
+	 *
+	 * @param keys
+	 * @return
+	 */
+	protected Map&lt;String, M&gt; getAllFromMemcache(Iterable&lt;Key&gt; keys) {
+<span class="fc" id="L247">		List&lt;String&gt; memcacheKeys = createMemcacheKeys(keys);</span>
+		try {
+<span class="fc" id="L249">			Map&lt;Object, Object&gt; memcacheMap = Memcache.getAll(memcacheKeys);</span>
+<span class="fc" id="L250">			Map&lt;String, M&gt; resultMap = new LinkedHashMap&lt;String, M&gt;();</span>
+
+<span class="fc bfc" id="L252" title="All 2 branches covered.">			for(Map.Entry&lt;Object, Object&gt; entry : memcacheMap.entrySet()){</span>
+				@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L254">				M value = (M)entry.getValue();</span>
+
+<span class="fc" id="L256">				resultMap.put((String)entry.getKey(), value);</span>
+<span class="fc" id="L257">			}</span>
+<span class="fc" id="L258">			return resultMap;</span>
+
+<span class="nc" id="L260">		} catch (RuntimeException e) {</span>
+<span class="nc" id="L261">			String message = &quot;[FAILED]Memcache get:key=&quot; + memcacheKeys;</span>
+<span class="nc" id="L262">			logger.log(Level.WARNING, message, e);</span>
+<span class="nc" id="L263">			return null;</span>
+		}
+	}
+
+	/**
+	 * delete model in both Datastote and Memcache
+	 * @param key
+	 */
+	public void delete(Key key){
+<span class="fc" id="L272">		Datastore.deleteAsync(key);</span>
+<span class="fc" id="L273">		deleteInMemcache(key);</span>
+<span class="fc" id="L274">	}</span>
+
+	/**
+	 * delete models in both Datastote and Memcache
+	 * @param key
+	 */
+	public void deleteAll(Iterable&lt;Key&gt; keys){
+<span class="fc" id="L281">		Datastore.deleteAsync(keys);</span>
+<span class="fc" id="L282">		deleteAllInMemcache(keys);</span>
+<span class="fc" id="L283">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.5.10.201208310627</span></div></body></html>

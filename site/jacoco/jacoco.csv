@@ -1,0 +1,10 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+kulib,net.sue445.kulib.filter,DateLoggingFilter,72,97,3,7,12,33,4,14,1,12
+kulib,net.sue445.kulib.service,ExceptionMailService,51,312,2,20,11,67,3,20,1,11
+kulib,net.sue445.kulib.controller,JsonController,0,90,0,4,0,18,0,9,0,7
+kulib,net.sue445.kulib.util,MemcacheUtil,3,17,0,0,2,2,1,2,1,2
+kulib,net.sue445.kulib.util,EmptyCheckUtil,7,44,2,16,2,6,3,13,1,6
+kulib,net.sue445.kulib.util,UrlGenerateUtil,39,123,1,19,10,25,3,16,2,7
+kulib,net.sue445.kulib.util,CompressMemcacheUtil,136,219,5,17,15,70,6,17,1,11
+kulib,net.sue445.kulib.util,RegexUtil,3,41,0,4,2,9,1,4,1,2
+kulib,net.sue445.kulib.dao,MemcacheProxyDaoBase,104,323,3,19,21,82,3,24,0,16

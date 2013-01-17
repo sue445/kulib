@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ja"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ExceptionMailService.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">kulib</a> &gt; <a href="index.html" class="el_package">net.sue445.kulib.service</a> &gt; <span class="el_source">ExceptionMailService.java</span></div><h1>ExceptionMailService.java</h1><pre class="source lang-java linenums">package net.sue445.kulib.service;
+
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.google.appengine.api.mail.MailService;
+import com.google.appengine.api.mail.MailServiceFactory;
+
+
+public class ExceptionMailService {
+<span class="fc" id="L19">	protected static final Logger logger = Logger.getLogger(ExceptionMailService.class.getName());</span>
+
+<span class="fc" id="L21">	private static final String LINE_SEPARATOR = System.getProperty(&quot;line.separator&quot;);</span>
+	private static final String SEND_FROM = &quot;sendFrom&quot;;
+	private static final String KEY_SEND_TO = &quot;sendTo&quot;;
+	private static final String KEY_SUBJECT = &quot;subject&quot;;
+	private static final String DEFAULT_BUNDLE_NAME = &quot;mail&quot;;
+	private static final String IGNORE = &quot;ignore&quot;;
+
+	private final String bundleName;
+
+
+	/**
+	 * initialize as mail.properties
+	 */
+<span class="nc" id="L34">	public ExceptionMailService(){</span>
+<span class="nc" id="L35">		this.bundleName = DEFAULT_BUNDLE_NAME;</span>
+<span class="nc" id="L36">	}</span>
+
+	/**
+	 *
+	 * @param bundleName
+	 */
+<span class="fc" id="L42">	public ExceptionMailService(String bundleName){</span>
+<span class="fc" id="L43">		this.bundleName = bundleName;</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * send exception mail
+	 * @param t
+	 * @param request
+	 * @return true:sended mail / false:not send mail(ex. Exception is ignored)
+	 */
+	public boolean send(Throwable t, HttpServletRequest request){
+		try {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">			if(isIgnoreException(t)){</span>
+<span class="fc" id="L55">				return false;</span>
+			}
+
+<span class="fc" id="L58">			MailService.Message msg = createMessage(t, request);</span>
+
+<span class="fc" id="L60">			MailService mailService = MailServiceFactory.getMailService();</span>
+<span class="fc" id="L61">			mailService.send(msg);</span>
+
+<span class="fc" id="L63">			logger.log(Level.INFO, &quot;mail send: &quot; + msg.getSender() + &quot; -&gt; &quot; + msg.getTo());</span>
+
+<span class="fc" id="L65">			return true;</span>
+
+<span class="nc" id="L67">		} catch (Exception e) {</span>
+<span class="nc" id="L68">			logger.log(Level.WARNING, &quot;mail cannot send&quot;, e);</span>
+<span class="nc" id="L69">			return false;</span>
+		}
+	}
+
+	protected MailService.Message createMessage(Throwable t, HttpServletRequest request) {
+<span class="fc" id="L74">		MailService.Message msg = new MailService.Message();</span>
+<span class="fc" id="L75">		msg.setSender(getString(SEND_FROM));</span>
+<span class="fc" id="L76">		msg.setTo(getString(KEY_SEND_TO));</span>
+<span class="fc" id="L77">		msg.setSubject(getString(KEY_SUBJECT));</span>
+<span class="fc" id="L78">		msg.setTextBody(createTextBody(t, request));</span>
+
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		if(logger.isLoggable(Level.FINEST)){</span>
+<span class="nc" id="L81">			logger.log(Level.FINEST, &quot;sender=&quot; + msg.getSender() + &quot;, to=&quot; + msg.getTo() + &quot;, subject=&quot; + msg.getSubject() + &quot;, textBody=&quot; + msg.getTextBody());</span>
+		}
+
+<span class="fc" id="L84">		return msg;</span>
+	}
+
+	/**
+	 * send exception mail to admins
+	 * @param t
+	 * @param request
+	 * @return true:sended mail / false:not send mail(ex. Exception is ignored)
+	 * @since 0.0.5
+	 */
+	public boolean sendToAdmins(Throwable t, HttpServletRequest request){
+		try {
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">			if(isIgnoreException(t)){</span>
+<span class="nc" id="L97">				return false;</span>
+			}
+
+<span class="fc" id="L100">			MailService.Message msg = createMessage(t, request);</span>
+
+<span class="fc" id="L102">			MailService mailService = MailServiceFactory.getMailService();</span>
+<span class="fc" id="L103">			mailService.sendToAdmins(msg);</span>
+
+<span class="fc" id="L105">			logger.log(Level.INFO, &quot;mail send: &quot; + msg.getSender() + &quot; -&gt; &quot; + msg.getTo());</span>
+
+<span class="fc" id="L107">			return true;</span>
+
+<span class="nc" id="L109">		} catch (Exception e) {</span>
+<span class="nc" id="L110">			logger.log(Level.WARNING, &quot;mail cannot send&quot;, e);</span>
+<span class="nc" id="L111">			return false;</span>
+		}
+	}
+
+	/**
+	 *
+	 * @param t
+	 * @param request
+	 * @return
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	protected String createTextBody(Throwable t, HttpServletRequest request) {
+<span class="fc" id="L123">		StringBuilder sb = new StringBuilder();</span>
+
+<span class="fc" id="L125">		sb.append(&quot;[Header]&quot;).append(LINE_SEPARATOR);</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		for (Enumeration&lt;String&gt; e = request.getHeaderNames(); e.hasMoreElements();){</span>
+<span class="fc" id="L127">			String name = e.nextElement();</span>
+<span class="fc" id="L128">			sb.append(name).append(&quot;=&quot;).append(request.getHeader(name)).append(LINE_SEPARATOR);</span>
+<span class="fc" id="L129">		}</span>
+<span class="fc" id="L130">		sb.append(LINE_SEPARATOR);</span>
+<span class="fc" id="L131">		sb.append(&quot;[StackTrace]&quot;).append(LINE_SEPARATOR);</span>
+<span class="fc" id="L132">		sb.append(getStackTraceMessage(t));</span>
+
+<span class="fc" id="L134">		return sb.toString();</span>
+	}
+
+	/**
+	 * get value in prop
+	 * @param key
+	 * @return
+	 */
+	protected String getString(String key) {
+		try {
+<span class="fc" id="L144">			ResourceBundle bundle = ResourceBundle.getBundle(bundleName);</span>
+<span class="fc" id="L145">			return bundle.getString(key);</span>
+<span class="fc" id="L146">		} catch (MissingResourceException e) {</span>
+<span class="fc" id="L147">			return null;</span>
+		}
+	}
+
+	/**
+	 * exists key
+	 * @param key
+	 * @return
+	 */
+	protected boolean hasKey(String key){
+<span class="fc" id="L157">		String value = getString(key);</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">		return value != null;</span>
+	}
+
+	/**
+	 *
+	 * @param t
+	 * @return
+	 */
+	protected boolean isIgnoreException(Throwable t){
+<span class="fc" id="L167">		String sourceClassName = t.getClass().getName();</span>
+
+<span class="fc" id="L169">		String[] array = sourceClassName.split(&quot;\\.&quot;);</span>
+<span class="fc" id="L170">		LinkedList&lt;String&gt; list = new LinkedList&lt;String&gt;(Arrays.asList(array));</span>
+
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		while(!list.isEmpty()){</span>
+<span class="fc" id="L173">			String className = join(list, &quot;.&quot;);</span>
+<span class="fc" id="L174">			String value = getString(className);</span>
+
+<span class="fc bfc" id="L176" title="All 2 branches covered.">			if(value != null){</span>
+<span class="fc" id="L177">				return IGNORE.equals(value);</span>
+			}
+
+<span class="fc" id="L180">			list.removeLast();</span>
+<span class="fc" id="L181">		}</span>
+
+<span class="fc" id="L183">		return false;</span>
+	}
+
+	/**
+	 *
+	 * @param list
+	 * @param separator
+	 * @return
+	 */
+	protected String join(List&lt;String&gt; list, String separator){
+<span class="fc" id="L193">		StringBuilder sb = new StringBuilder();</span>
+
+<span class="fc" id="L195">		boolean isFirst = true;</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">		for(String str : list){</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">			if(isFirst){</span>
+<span class="fc" id="L198">				isFirst = false;</span>
+			} else{
+<span class="fc" id="L200">				sb.append(separator);</span>
+			}
+<span class="fc" id="L202">			sb.append(str);</span>
+		}
+
+<span class="fc" id="L205">		return sb.toString();</span>
+	}
+
+	/**
+	 *
+	 * @param t
+	 * @return
+	 */
+	protected String getStackTraceMessage(Throwable t){
+<span class="fc" id="L214">		StringBuilder sb = new StringBuilder();</span>
+
+<span class="fc" id="L216">		sb.append(t).append(LINE_SEPARATOR);</span>
+
+<span class="fc bfc" id="L218" title="All 2 branches covered.">		for(StackTraceElement e : t.getStackTrace()){</span>
+<span class="fc" id="L219">			sb.append(&quot;\t&quot;).append(e).append(LINE_SEPARATOR);</span>
+		}
+
+<span class="fc bfc" id="L222" title="All 2 branches covered.">		if(t.getCause() != null){</span>
+<span class="fc" id="L223">			sb.append(&quot;Caused by: &quot;).append(getStackTraceMessage(t.getCause()));</span>
+		}
+
+<span class="fc" id="L226">		return sb.toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.5.10.201208310627</span></div></body></html>
