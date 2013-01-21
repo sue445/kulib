@@ -1,52 +1,55 @@
-# First
+# Kulib [![Build Status](http://ci.sue445.net/jenkins/job/kulib/badge/icon)](http://ci.sue445.net/jenkins/job/kulib/)
+## Overview
 This is my private liblary for [Google App Engine](http://code.google.com/intl/en/appengine/) and [Slim3](https://sites.google.com/site/slim3appengine/).
 
 This is used by [jubeat++](http://jubeatplusplus.appspot.com/) and [AZusaar!](http://azusaar.appspot.com/)
 
-# How to use
-## pom.xml
-    <project>
-      <repositories>
-        <repository>
-          <id>sue445-repo</id>
-          <url>http://sue445.github.com/maven/</url>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-          </snapshots>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>sue445-repo</id>
-          <url>http://sue445.github.com/maven/</url>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-          </snapshots>
-        </pluginRepository>
-      </pluginRepositories>
-      <dependencies>
-        <dependency>
-          <groupId>net.sue445</groupId>
-          <artifactId>kulib</artifactId>
-          <version>[0.0,)</version>
-        </dependency>
-      </dependencies>
-    </project>
+## How to use
+### pom.xml
+```xml
+<project>
+  <repositories>
+    <repository>
+      <id>sue445-repo</id>
+      <url>http://sue445.github.com/maven/</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sue445-repo</id>
+      <url>http://sue445.github.com/maven/</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+  <dependencies>
+    <dependency>
+      <groupId>net.sue445</groupId>
+      <artifactId>kulib</artifactId>
+      <version>[0.0,)</version>
+    </dependency>
+  </dependencies>
+</project>
+```
 
-# Javadoc
+## Javadoc
 http://sue445.github.com/kulib/site/apidocs/index.html
 
-# History
+## History
 * [0.0.6](https://github.com/sue445/kulib/commit/75eefd290c7df5abecf6e8186abbe15a29c46fc0)
  * Issue #4
  * Tested on Slim3 1.0.16 and appengine 1.7.0
