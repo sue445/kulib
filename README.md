@@ -1,4 +1,4 @@
-# Kulib [![Build Status](http://ci.sue445.net/jenkins/job/kulib/badge/icon)](http://ci.sue445.net/jenkins/job/kulib/)
+# Kulib [![Build Status](https://travis-ci.org/sue445/kulib.png)](https://travis-ci.org/sue445/kulib)
 ## Overview
 This is my private liblary for [Google App Engine](http://code.google.com/intl/en/appengine/) and [Slim3](https://sites.google.com/site/slim3appengine/).
 
